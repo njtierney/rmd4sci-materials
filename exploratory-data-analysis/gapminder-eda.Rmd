@@ -8,6 +8,7 @@ output:
 
 
 ```{r setup, include=FALSE}
+# more substantial setup for your document
 knitr::opts_chunk$set(echo = TRUE, 
                       fig.align = "center",
                       fig.width = 4, 
@@ -28,10 +29,8 @@ scale_01 <- function(x){
 }
 ```
 
-# Data reading in here
-
 ```{r data-read-in, echo = FALSE, message = FALSE, cache = TRUE}
-data <- read_csv(here::here("data", "gapminder.csv"))
+gapminder <- read_csv("data/gapminder.csv")
 ```
 
 ```{r demo, eval = TRUE, echo = TRUE}
@@ -43,19 +42,19 @@ data <- read_csv(here::here("data", "gapminder.csv"))
 let's look at the lifespan
 
 ```{r hist-life-exp}
-hist(data$lifeExp)
+hist(gapminder$lifeExp)
 ```
 
 Let's look at the GDP per capita
 
 ```{r example-cache}
-hist(data$gdpPercap)
+hist(gapminder$gdpPercap)
 ```
 
 Let's fit a simple linear model of the effect of year on life expectancy
 
 ```{r example-lm}
-fit <- lm(lifeExp ~ year, data = data)
+fit <- lm(lifeExp ~ year, data = gapminder)
 fit
 ```
 
@@ -69,3 +68,10 @@ year_slope <- round(fit_coef$estimate[2], 3)
 ```
 
 The effect of year on life expectancy is `r year_slope`.
+
+A table of the coefficients is:
+
+```{r table-coef}
+knitr::kable(fit_coef)
+```
+
