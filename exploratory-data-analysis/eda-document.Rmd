@@ -1,9 +1,7 @@
 ---
 title: "Exploring gapminder"
-author: "Nicholas Tierney"
-output:
-  html_document:
-    toc: true
+author: "Your Name"
+output: html_document
 ---
 
 
@@ -17,21 +15,35 @@ knitr::opts_chunk$set(echo = TRUE,
                       cache = FALSE)
 ```
 
-```{r library}
+```{r library, echo = FALSE, message = FALSE}
 library(tidyverse)
 library(broom)
+library(knitr)
 ```
 
-````{r functions}
+````{r functions, echo = FALSE}
 # A function to scale input to 0-1
 scale_01 <- function(x){
   (x - min(x, na.rm = TRUE)) / diff(range(x, na.rm = TRUE))
 }
 ```
 
-```{r data-read-in, echo = FALSE, message = FALSE, cache = TRUE}
-gapminder <- read_csv("data/gapminder.csv")
+```{r data-read-in}
+gapminder <- read_csv(here::here("data","gapminder.csv"))
 ```
+
+Here are the first 6 rows of data
+
+```{r gapminder-top}
+ top_gap <- head(gapminder, n = 10)
+ bot_gap <- tail(gapminder, n = 10)
+ 
+ knitr::kable(top_gap,
+              caption = "The first 6 rows of the dataset, gapminder",
+              digits = 2)
+ kable(bot_gap)
+```
+
 
 ```{r demo, eval = TRUE, echo = TRUE}
 1 + 1
@@ -69,9 +81,39 @@ year_slope <- round(fit_coef$estimate[2], 3)
 
 The effect of year on life expectancy is `r year_slope`.
 
-A table of the coefficients is:
+# A table of the coefficients is:
 
 ```{r table-coef}
 knitr::kable(fit_coef)
 ```
+
+```{r}
+```
+
+```{r}
+
+```
+
+```{r}
+1+1 
+
+x <- 1 + 1 + 6
+```
+
+```{r gg-oz-plot, fig.cap = "Life expectancy from 1952 - 2007 for Australia. Life expentancy increases steadily except from 1962 to 1969. We can safely say that our life expectancy is higher than it has ever been!"}
+library(ggplot2)
+library(dplyr)
+gapminder %>%
+  filter(country == "Australia") %>%
+  ggplot(aes(x = year,
+             y = lifeExp)) + 
+  geom_point()
+```
+
+Australia's life expectancy has increased a great deal over the past 50 years
+
+(See Figure \@ref(fig:gg-oz-plot))
+
+
+# References
 
